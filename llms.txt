@@ -1,0 +1,29 @@
+# smart_suggestions_codespark
+
+> On-device "related items" for Flutter. Dependency: ai_core_codespark for embeddings (~23 MB model, cached on first run).
+
+## What it does
+
+Given an anchor item (or multiple), finds the most similar items in a collection — fully offline, no API keys. Use cases: "related articles", "you might also like", "similar questions".
+
+## Three-line quick start
+
+```dart
+final suggestions = SmartSuggestions();
+await suggestions.initialize();
+final hits = await suggestions.suggest(anchor: 'running shoes', candidates: items);
+```
+
+## Core API
+
+- `SmartSuggestions` — orchestrator. `suggest()`, `suggestFor<T>()`, `suggestLike()`, `createIndex()`, `loadIndex()`.
+- `SuggestionIndex<T>` — pre-embedded corpus. `similarTo(index)`, `suggestFor(text)`, `suggestLike(anchors)`, `suggestDiverse(text)`, `add()`, `save()/restore()`.
+- `SuggestionResult<T>` — result with `.item`, `.score`, `.index`.
+- `SuggestionsList<T>` — widget showing suggestions for an anchor.
+
+## Key differences from semantic_search_codespark
+
+- Anchor-based (not query-based): find items *similar to another item*
+- `similarTo(int)`: within-index recommendations without embedding
+- Multi-anchor blending: average user history to suggest
+- Widget displays computed suggestions (no text field)

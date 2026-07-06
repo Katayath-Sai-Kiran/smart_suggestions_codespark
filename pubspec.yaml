@@ -1,0 +1,32 @@
+name: smart_suggestions_codespark
+description: >-
+  On-device "related items" for Flutter — suggest similar content by meaning,
+  fully offline, no API keys. Three-line API powered by local embeddings.
+version: 0.1.0
+
+repository: https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark
+homepage: https://ksaikiran.dev
+issue_tracker: https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark/issues
+
+topics:
+  - recommendations
+  - similar-items
+  - offline-ai
+  - embeddings
+  - local-ai
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ai_core_codespark: ^0.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
