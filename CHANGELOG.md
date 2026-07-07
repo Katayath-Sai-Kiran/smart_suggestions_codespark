@@ -1,3 +1,9 @@
+## 0.2.1
+
+- **Docs**: Added `///` comments on all `CodesparkBackend` members.
+- **Formatting**: `dart format` on all library files.
+- **Screenshots**: Replaced corrupted `free_text_demo.png` with a valid PNG.
+
 ## 0.2.0
 
 - **`SmartSuggestions.create()`** — one-liner static factory combining
