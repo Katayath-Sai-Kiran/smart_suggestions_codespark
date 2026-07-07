@@ -227,20 +227,29 @@ All suggestion exceptions extend `SuggestionException` which extends
 - **Next** — category-aware filtering, hybrid scoring (semantic + metadata),
   then a multilingual model.
 
-## More from ksaikiran.dev
+## More from the codespark ecosystem
 
-| Package | What it does |
-|---|---|
-| [ai_core_codespark](https://pub.dev/packages/ai_core_codespark) | The on-device embedding engine both packages are built on. |
-| [semantic_search_codespark](https://pub.dev/packages/semantic_search_codespark) | Offline semantic search — search by meaning. |
-| [text_comparison_score_codespark](https://pub.dev/packages/text_comparison_score_codespark) | Fuzzy string similarity — Levenshtein, Jaro-Winkler. |
-| [animated_dropdown_search_codespark](https://pub.dev/packages/animated_dropdown_search_codespark) | Searchable, animated dropdown widget. |
-| [text_highlight_codespark](https://pub.dev/packages/text_highlight_codespark) | Highlight query matches in text. |
+All packages by **Sai Kiran Katayath** ([ksaikiran.dev](https://ksaikiran.dev)) —
+on-device AI, Flutter utilities, and developer tooling.
 
-Browse all on [pub.dev/publishers/ksaikiran.dev](https://pub.dev/publishers/ksaikiran.dev/packages).
+| Package | What it does | Depends on |
+|---|---|---|
+| **smart_suggestions_codespark** ⬅ | On-device "related items" — similar by meaning | `ai_core_codespark` |
+| [ai_core_codespark](https://pub.dev/packages/ai_core_codespark) | **Engine**: on-device text embeddings & vector search (MiniLM) | — |
+| [semantic_search_codespark](https://pub.dev/packages/semantic_search_codespark) | On-device semantic & vector search — search by meaning | `ai_core_codespark` |
+| [text_comparison_score_codespark](https://pub.dev/packages/text_comparison_score_codespark) | Fuzzy string matching — Levenshtein, Damerau-Levenshtein, Jaro-Winkler | — |
+| [text_highlight_codespark](https://pub.dev/packages/text_highlight_codespark) | Rich-text highlighting — single/multi-query, regex, tappable spans | — |
+| [animated_dropdown_search_codespark](https://pub.dev/packages/animated_dropdown_search_codespark) | Searchable, animated multi-select dropdown | — |
+| [date_formatter_codespark](https://pub.dev/packages/date_formatter_codespark) | DateTime formatting, relative time, time-ago, human-readable dates | — |
+| [context_extensions_codespark](https://pub.dev/packages/context_extensions_codespark) | BuildContext extensions — MediaQuery, theme, snackbar, responsive | — |
+| [icon_to_text_extension_codespark](https://pub.dev/packages/icon_to_text_extension_codespark) | Convert any IconData to inline Text or TextSpan | — |
+| [advanced_text_input_formatters_codespark](https://pub.dev/packages/advanced_text_input_formatters_codespark) | Custom TextInputFormatters — simulate typing, block clipboard, enforce rules | — |
+| [dual_tone_text_codespark](https://pub.dev/packages/dual_tone_text_codespark) | Dual-tone gradient text — vertical, horizontal, or radial splits | — |
+
+Browse all 14 packages on [pub.dev/publishers/ksaikiran.dev](https://pub.dev/publishers/ksaikiran.dev/packages).
 
 ## License
 
-MIT © Sai Kiran Katayath — part of the **codespark** on-device AI ecosystem · [ksaikiran.dev](https://ksaikiran.dev)
+MIT © [Sai Kiran Katayath](https://ksaikiran.dev) — part of the **codespark** on-device AI ecosystem.
 
 If this saved you a backend, a ⭐ on [GitHub](https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark) and a 👍 on [pub.dev](https://pub.dev/packages/smart_suggestions_codespark) help other developers find it.
