@@ -48,7 +48,7 @@ class SmartSuggestions {
 
   /// Creates and initializes with a custom [SuggestionEmbedder] in one step.
   ///
-  /// Useful for tests (inject a [FakeEmbedder]) or custom backends.
+  /// Useful for tests (inject a fake embedder) or custom backends.
   static Future<SmartSuggestions> createWithEmbedder(
     SuggestionEmbedder embedder, {
     ProgressCallback? onProgress,

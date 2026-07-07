@@ -167,8 +167,8 @@ class _SuggestionsListState<T> extends State<SuggestionsList<T>> {
     if (results == null || results.isEmpty) {
       return widget.emptyBuilder?.call(context) ??
           const Center(
-            child:
-                Padding(padding: EdgeInsets.all(24), child: Text('No suggestions.')),
+            child: Padding(
+                padding: EdgeInsets.all(24), child: Text('No suggestions.')),
           );
     }
     return ListView.builder(

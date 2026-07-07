@@ -20,12 +20,18 @@ abstract class SuggestionEmbedder {
 
 /// Default backend: adapts [CodesparkEngine] (ai_core_codespark) to
 /// [SuggestionEmbedder]. This is what runs in real apps.
+/// Default backend: adapts [CodesparkEngine] (ai_core_codespark) to
+/// [SuggestionEmbedder]. This is what runs in real apps.
 class CodesparkBackend implements SuggestionEmbedder {
-  final CodesparkEngine engine;
+  /// Wraps the given [engine].
   CodesparkBackend(this.engine);
 
+  /// Convenience factory using the default MiniLM-L6 v2 model.
   factory CodesparkBackend.miniLm() =>
       CodesparkBackend(CodesparkEngine(model: ModelCatalog.miniLmL6V2));
+
+  /// The underlying [CodesparkEngine] instance.
+  final CodesparkEngine engine;
 
   @override
   Future<void> initialize({ProgressCallback? onProgress}) =>
@@ -34,16 +40,20 @@ class CodesparkBackend implements SuggestionEmbedder {
   @override
   bool get isInitialized => engine.isInitialized;
 
+  /// Embedding dimensionality of the loaded model.
   @override
   int get dimension => engine.dimension;
 
+  /// Embeds a single [text] and returns its vector representation.
   @override
   Future<Float32List> embed(String text) => engine.embed(text);
 
+  /// Embeds a batch of [texts] and returns their vector representations.
   @override
   Future<List<Float32List>> embedBatch(List<String> texts) =>
       engine.embedBatch(texts);
 
+  /// Releases model resources.
   @override
   Future<void> dispose() => engine.dispose();
 }

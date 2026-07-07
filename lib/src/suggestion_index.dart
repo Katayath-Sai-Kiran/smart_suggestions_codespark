@@ -75,7 +75,8 @@ class SuggestionIndex<T> {
     return [
       for (final s in scored)
         if (s.index != itemIndex)
-          SuggestionResult(item: _items[s.index], score: s.score, index: s.index),
+          SuggestionResult(
+              item: _items[s.index], score: s.score, index: s.index),
     ].take(topK).toList();
   }
 
@@ -215,7 +216,9 @@ class SuggestionIndex<T> {
   static Float32List _decodeVector(String s) {
     final bytes = base64Decode(s);
     final out = Float32List(bytes.length ~/ 4);
-    out.buffer.asUint8List(out.offsetInBytes, out.lengthInBytes).setAll(0, bytes);
+    out.buffer
+        .asUint8List(out.offsetInBytes, out.lengthInBytes)
+        .setAll(0, bytes);
     return out;
   }
 }
