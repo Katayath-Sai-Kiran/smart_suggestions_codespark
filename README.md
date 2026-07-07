@@ -3,6 +3,7 @@
 [![pub package](https://img.shields.io/pub/v/smart_suggestions_codespark.svg)](https://pub.dev/packages/smart_suggestions_codespark)
 [![pub points](https://img.shields.io/pub/points/smart_suggestions_codespark)](https://pub.dev/packages/smart_suggestions_codespark/score)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark/actions/workflows/ci.yml/badge.svg)](https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark/actions/workflows/ci.yml)
 
 **Add "related items" / "you might also like" to your Flutter app in three
 lines — fully on-device, no backend, no API keys, no per-query cost.**
@@ -16,9 +17,7 @@ they share almost no words — something keyword matching can't do.
 ```dart
 import 'package:smart_suggestions_codespark/smart_suggestions_codespark.dart';
 
-final suggestions = SmartSuggestions();
-await suggestions.initialize(); // downloads a ~23 MB model once, then cached
-
+final suggestions = await SmartSuggestions.create(); // downloads ~23 MB once, cached
 final hits = await suggestions.suggest(
   anchor: 'running shoes',
   candidates: ['sneakers', 'formal boots', 'hiking sandals', 'flip flops'],
@@ -170,7 +169,12 @@ Then `flutter pub get`.
 
 | Android | iOS | macOS | Windows | Linux | Web |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| ✓ | ✓ | ✓ | ✓ | ✓ | experimental |
+| ✓ | ✓ | ✓ | ✓ | ✓ | ⚠️ library |
+
+> ⚠️ **Web**: The library compiles on web. Embedding inference requires
+> [`ai_core_codespark`](https://pub.dev/packages/ai_core_codespark) with a WASM
+> ONNX runtime, which is pending upstream. Index persistence (`save`/`load`)
+> throws on web — provide your own storage layer or use a native platform.
 
 ## How it works
 
@@ -178,9 +182,48 @@ Text → a local MiniLM embedding (via
 [ai_core_codespark](https://pub.dev/packages/ai_core_codespark)) → a vector →
 cosine similarity ranking, all on a background isolate.
 
+## Similarity utilities
+
+The `Similarity` and `Pooling` classes from the embedding engine are re-exported
+for advanced use — compute custom scores between arbitrary vectors:
+
+```dart
+import 'dart:typed_data';
+import 'package:smart_suggestions_codespark/smart_suggestions_codespark.dart';
+
+final a = Float32List.fromList([1, 0, 0, 0]);
+final b = Float32List.fromList([0.8, 0.6, 0, 0]);
+
+Pooling.l2Normalize(a);
+Pooling.l2Normalize(b);
+
+final score = Similarity.dot(a, b); // ~0.80
+
+// Top-k from your own corpus
+final hits = Similarity.topK(a, [b, ...], k: 5, threshold: 0.3);
+
+// Diversity-aware re-ranking
+final diverse = Similarity.mmr(a, corpus, k: 5, lambda: 0.5);
+```
+
+## Exceptions
+
+Domain-specific exceptions for precise error handling:
+
+| Exception | When thrown |
+|---|---|
+| `IndexOutOfRangeException` | `similarTo()` index exceeds corpus bounds |
+| `IndexDimensionMismatchException` | `loadIndex()` saved dimension ≠ current model |
+| `EngineNotInitializedException` | Any method before `initialize()` |
+
+All suggestion exceptions extend `SuggestionException` which extends
+`CodesparkException`, so `catch (CodesparkException e)` covers all of them.
+
 ## Roadmap
 
 - **v0.1** — on-device suggestions with `similarTo`, `suggestLike`, MMR, persistence, widget.
+- **v0.2** — `SmartSuggestions.create()` factory, `Similarity`/`Pooling` exports, typed exceptions,
+  web-compatible persistence layer, CI + benchmarks.
 - **Next** — category-aware filtering, hybrid scoring (semantic + metadata),
   then a multilingual model.
 

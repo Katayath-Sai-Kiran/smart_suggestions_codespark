@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:ai_core_codespark/ai_core_codespark.dart';
 
+import 'exceptions.dart';
+import 'storage.dart';
 import 'suggestion_embedder.dart';
 import 'suggestion_result.dart';
 
@@ -65,7 +66,9 @@ class SuggestionIndex<T> {
     double? threshold,
   }) async {
     if (_items.isEmpty) return [];
-    RangeError.checkValidIndex(itemIndex, _items);
+    if (itemIndex < 0 || itemIndex >= _items.length) {
+      throw IndexOutOfRangeException(itemIndex, _items.length);
+    }
     final q = _vectors[itemIndex];
     final scored =
         Similarity.topK(q, _vectors, k: topK + 1, threshold: threshold);
@@ -144,7 +147,7 @@ class SuggestionIndex<T> {
           {'item': encode(_items[i]), 'v': _encodeVector(_vectors[i])},
       ],
     };
-    await File(path).writeAsString(jsonEncode(json));
+    writeFile(path, jsonEncode(json));
   }
 
   /// Restores an index previously written with [save].
@@ -156,16 +159,16 @@ class SuggestionIndex<T> {
     required String path,
     required T Function(Map<String, dynamic> json) decode,
   }) async {
-    final raw = jsonDecode(await File(path).readAsString());
+    final raw = jsonDecode(readFile(path));
     final json = raw as Map<String, dynamic>;
     final savedDim = json['dimension'] as int? ?? 0;
 
     if (embedder.isInitialized &&
         savedDim != 0 &&
         embedder.dimension != savedDim) {
-      throw StateError(
-        'Saved index dimension ($savedDim) does not match the current model '
-        '(${embedder.dimension}). Re-create the index after a model change.',
+      throw IndexDimensionMismatchException(
+        saved: savedDim,
+        current: embedder.dimension,
       );
     }
 

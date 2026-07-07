@@ -206,12 +206,15 @@ void main() {
       expect(hits.length, 1);
     });
 
-    test('throws RangeError for invalid index', () async {
+    test('throws IndexOutOfRangeException for invalid index', () async {
       final index = await suggestions.createIndex(
         items: ['car', 'banana'],
         textOf: (x) => x,
       );
-      expect(() => index.similarTo(5), throwsRangeError);
+      expect(
+        () => index.similarTo(5),
+        throwsA(isA<IndexOutOfRangeException>()),
+      );
     });
   });
 
@@ -256,6 +259,24 @@ void main() {
       () => s.suggest(anchor: 'x', candidates: ['y']),
       throwsA(isA<EngineNotInitializedException>()),
     );
+  });
+
+  group('SmartSuggestions.createWithEmbedder()', () {
+    test('factory creates and initializes in one call', () async {
+      final s = await SmartSuggestions.createWithEmbedder(FakeEmbedder());
+      expect(s.isInitialized, isTrue);
+      await s.dispose();
+    });
+
+    test('factory instance is ready for suggestions', () async {
+      final s = await SmartSuggestions.createWithEmbedder(FakeEmbedder());
+      final hits = await s.suggest(
+        anchor: 'car',
+        candidates: ['automobile', 'banana'],
+      );
+      expect(hits.first.item, 'automobile');
+      await s.dispose();
+    });
   });
 
   group('persistence', () {
@@ -307,7 +328,7 @@ void main() {
       expect(
         () => suggestions.loadIndex<String>(
             path: path, decode: (j) => j['t'] as String),
-        throwsStateError,
+        throwsA(isA<IndexDimensionMismatchException>()),
       );
       await dir.delete(recursive: true);
     });

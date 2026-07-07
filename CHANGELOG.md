@@ -1,3 +1,18 @@
+## 0.2.0
+
+- **`SmartSuggestions.create()`** — one-liner static factory combining
+  constructor + `initialize()`.
+- **`SmartSuggestions.createWithEmbedder()`** — same pattern for test/custom
+  backends.
+- **`Similarity`, `Pooling`, `PoolingStrategy`, `ScoredIndex`** now publicly
+  exported for advanced use (custom vector ranking, MMR, normalization).
+- **Typed exceptions** — `SuggestionException`, `IndexOutOfRangeException`,
+  `IndexDimensionMismatchException` replace generic `StateError`/`RangeError`.
+- **Web compatibility** — `dart:io` abstracted behind a conditional import
+  (library compiles on web; persistence throws `UnsupportedError` on web).
+- **CI + benchmarks** — GitHub Actions workflow (`flutter analyze` + `flutter
+  test`) and a benchmark test suite measuring ranking throughput.
+
 ## 0.1.0
 
 Initial release — on-device "related items" suggestions for Flutter.

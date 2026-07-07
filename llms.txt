@@ -9,8 +9,7 @@ Given an anchor item (or multiple), finds the most similar items in a collection
 ## Three-line quick start
 
 ```dart
-final suggestions = SmartSuggestions();
-await suggestions.initialize();
+final suggestions = await SmartSuggestions.create();
 final hits = await suggestions.suggest(anchor: 'running shoes', candidates: items);
 ```
 
@@ -20,6 +19,13 @@ final hits = await suggestions.suggest(anchor: 'running shoes', candidates: item
 - `SuggestionIndex<T>` — pre-embedded corpus. `similarTo(index)`, `suggestFor(text)`, `suggestLike(anchors)`, `suggestDiverse(text)`, `add()`, `save()/restore()`.
 - `SuggestionResult<T>` — result with `.item`, `.score`, `.index`.
 - `SuggestionsList<T>` — widget showing suggestions for an anchor.
+
+## Exported utilities from ai_core_codespark
+
+- `Similarity` — `dot(a, b)`, `cosine(a, b)`, `topK(query, corpus)`, `mmr(query, corpus, lambda)`.
+- `ScoredIndex` — result from topK/mmr with `.index` and `.score`.
+- `Pooling` — `pool(tokens, mask, strategy)`, `l2Normalize(v)` (in-place).
+- `PoolingStrategy` — `mean`, `cls`, `max`.
 
 ## Key differences from semantic_search_codespark
 

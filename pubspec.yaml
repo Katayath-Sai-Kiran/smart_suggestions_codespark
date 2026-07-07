@@ -2,7 +2,7 @@ name: smart_suggestions_codespark
 description: >-
   On-device "related items" for Flutter — suggest similar content by meaning,
   fully offline, no API keys. Three-line API powered by local embeddings.
-version: 0.1.0
+version: 0.2.0
 
 repository: https://github.com/Katayath-Sai-Kiran/smart_suggestions_codespark
 homepage: https://ksaikiran.dev
@@ -28,5 +28,15 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+
+screenshots:
+  - description: 'Find articles similar to an existing one using on-device semantic similarity'
+    use-case: Overview
+    path: screenshots/similar_to_demo.png
+    platforms: [android, ios, macos, windows, linux, web]
+  - description: 'Search similar items using free-text input — fully offline, no API keys'
+    use-case: Overview
+    path: screenshots/free_text_demo.png
+    platforms: [android, ios, macos, windows, linux, web]
 
 flutter:

@@ -7,8 +7,7 @@ import 'suggestion_result.dart';
 /// On-device "related items" — find similar content by meaning.
 ///
 /// ```dart
-/// final suggestions = SmartSuggestions();
-/// await suggestions.initialize();
+/// final suggestions = await SmartSuggestions.create();
 /// final hits = await suggestions.suggest(
 ///   anchor: 'running shoes',
 ///   candidates: ['sneakers', 'formal boots', 'sandals'],
@@ -30,6 +29,34 @@ class SmartSuggestions {
 
   /// Inject any [SuggestionEmbedder] — used for tests and custom backends.
   SmartSuggestions.withEmbedder(this._embedder);
+
+  /// Creates and initializes in one step.
+  ///
+  /// ```dart
+  /// final suggestions = await SmartSuggestions.create();
+  /// ```
+  ///
+  /// Equivalent to `final s = SmartSuggestions(); await s.initialize();`.
+  static Future<SmartSuggestions> create({
+    ModelConfig? model,
+    ProgressCallback? onProgress,
+  }) async {
+    final s = SmartSuggestions(model: model);
+    await s.initialize(onProgress: onProgress);
+    return s;
+  }
+
+  /// Creates and initializes with a custom [SuggestionEmbedder] in one step.
+  ///
+  /// Useful for tests (inject a [FakeEmbedder]) or custom backends.
+  static Future<SmartSuggestions> createWithEmbedder(
+    SuggestionEmbedder embedder, {
+    ProgressCallback? onProgress,
+  }) async {
+    final s = SmartSuggestions.withEmbedder(embedder);
+    await s.initialize(onProgress: onProgress);
+    return s;
+  }
 
   bool get isInitialized => _embedder.isInitialized;
 
